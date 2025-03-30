@@ -1,0 +1,10 @@
+.genre-box {
+    max-width: 600px;
+}
+.genre {
+    max-width: 150px;
+}
+
+.genre:hover{
+    opacity: 70%;
+}

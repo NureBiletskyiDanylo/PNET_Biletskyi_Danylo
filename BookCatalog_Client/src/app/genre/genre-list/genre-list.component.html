@@ -1,0 +1,15 @@
+<input #selectedGenresString type="text" readonly (click)="switchList()">
+@if (focused){
+<div class="d-flex flex-wrap align-content-start genre-box" >
+    @for (genre of genres; track genre.id){
+    <div (click)="selectGenre(genre)" class="p-2 border genre"
+    [ngClass]="{'bg-warning': isSelected(genre), 'bg-info': !isSelected(genre)}">
+        <p>{{genre.name}}</p>
+    </div>
+    }
+
+    <div class="p-2 bg-primary border genre" (click)="addGenre()">
+        <p>Add genre <i class="fa fa-plus"></i></p>
+    </div>
+</div>
+}
