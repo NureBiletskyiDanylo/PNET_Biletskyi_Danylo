@@ -28,4 +28,8 @@ export class BooksComponent implements OnInit{
       }
     })
   }
+
+  handleBookDeleted(bookId: number){
+    this.books = this.books.filter(book => book.id != bookId);
+  }
 }

@@ -13,7 +13,11 @@ public class AutoMapperProfiles : Profile
         CreateMap<Author, AuthorDto>();
         CreateMap<AuthorDto, Author>()
             .ForMember(b => b.Books, opt => opt.Ignore());
-        CreateMap<BookCreateDto, Book>();
+        CreateMap<BookCreateDto, Book>()
+            .ForMember(b => b.BookGenres, opt => opt.Ignore())
+            .ForMember(b => b.PublicationYear, opt => opt.MapFrom(dto => dto.PublicationDate));
+        CreateMap<Book, BookCreateDto>()
+            .ForMember(dto => dto.PublicationDate, opt => opt.MapFrom(b => b.PublicationYear));
         CreateMap<Book, BookDto>();
         CreateMap<GenreCreateDto, Genre>();
         CreateMap<GenreDto, Genre>()

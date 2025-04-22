@@ -1,0 +1,4 @@
+<button class="btn btn-primary mb-2" type="button" (click)="goToCreateBook()">Add book <i class="fa fa-plus"></i></button>
+@for (book of books; track book.id){
+    <app-book-card [book]="book" (bookDeleted)="handleBookDeleted($event)"></app-book-card>
+}

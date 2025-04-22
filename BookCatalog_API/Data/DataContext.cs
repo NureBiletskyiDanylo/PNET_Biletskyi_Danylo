@@ -1,5 +1,6 @@
 ﻿using BookCatalog_API.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace BookCatalog_API.Data;
 
@@ -10,6 +11,7 @@ public class DataContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Book> Books { get; set; }
     public DbSet<Genre> Genres { get; set; }
+    public DbSet<BookCreateLog> BookCreateLogs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -50,5 +52,21 @@ public class DataContext : DbContext
             .WithMany(s => s.BookGenres)
             .HasForeignKey(s => s.BookId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<BookCreateLog>()
+            .HasOne(b => b.Book)
+            .WithMany() // no reverse navigation
+            .HasForeignKey(b => b.BookId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<BookCreateLog>()
+            .HasOne(b => b.Author)
+            .WithMany() // no reverse navigation
+            .HasForeignKey(b => b.AuthorId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+
+        builder.Entity<Book>()
+        .ToTable("Books", t => t.HasTrigger("trg_LogBookInsert"));
     }
 }

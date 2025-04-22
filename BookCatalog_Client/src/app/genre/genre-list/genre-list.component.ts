@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, OnInit, Output, ViewChild } from '@angular/core';
 import { Genre } from '../../_models/genre';
 import { GenreService } from '../../_services/genre.service';
 import { NgClass } from '@angular/common';
@@ -15,6 +15,7 @@ export class GenreListComponent implements OnInit{
   focused:boolean = false;
   genres:Genre[] = [];
   selectedGenres: Genre[] = [];
+  @Output() selectedGenresChange = new EventEmitter<Genre[]>();
   private genreService = inject(GenreService);
   switchList(){
     this.focused = !this.focused;
@@ -38,6 +39,7 @@ export class GenreListComponent implements OnInit{
       this.selectedGenres.splice(index, 1);
     }
     this.buildSelectedString();
+    this.selectedGenresChange.emit(this.selectedGenres);
   }
 
   addGenre(){

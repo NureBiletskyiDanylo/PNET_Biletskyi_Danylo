@@ -9,4 +9,5 @@ public class BookDto
     public int AuthorId { get; set; }
     public string? CoverUrl { get; set; }
     public ICollection<GenreDto> BookGenres { get; set; } = [];
+    public bool IsFavourite { get; set; }
 }

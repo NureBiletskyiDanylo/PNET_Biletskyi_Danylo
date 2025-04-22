@@ -13,13 +13,10 @@ public class UserRepository(DataContext context) : IUserRepository
         return await context.SaveChangesAsync() > 0;
     }
 
-    public async Task<User> GetUserByEmailAsync(string email)
+    public async Task<User?> GetUserByEmailAsync(string email)
     {
         User? user = await context.Users
             .FirstOrDefaultAsync(a => a.Email == email);
-        if (user == null) 
-            throw new ArgumentNullException("User was not found");
-
         return user;
     }
 
@@ -36,9 +33,21 @@ public class UserRepository(DataContext context) : IUserRepository
         return await context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> UpdateUser(User user)
+    public async Task<bool> UpdateUserAsync(User user)
     {
         context.Users.Update(user);
         return await context.SaveChangesAsync() > 0;
+    }
+
+    //public async Task<User> UserExistsAsync(string email)
+    //{
+    //    var user = await context.Users.FirstOrDefaultAsync(a => a.Email == email);
+    //    return user;
+    //}
+
+    public async Task<bool> UserExistsAsync(string email)
+    {
+        var user = await context.Users.FirstOrDefaultAsync(a => a.Email == email);
+        return user == null;
     }
 }

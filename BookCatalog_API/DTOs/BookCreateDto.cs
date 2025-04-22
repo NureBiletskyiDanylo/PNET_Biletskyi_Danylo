@@ -7,6 +7,6 @@ public class BookCreateDto
 {
     public required string Title { get; set; }
     public string? Description { get; set; }
-    public DateOnly PublicationYear { get; set; }
+    public DateOnly PublicationDate { get; set; }
     public ICollection<GenreDto> BookGenres { get; set; } = [];
 }

@@ -3,7 +3,8 @@
     <h5 class="card-title">{{book().title}}</h5>
     <p class="card-text">{{book().description == null? 'no description' : book().description}}</p>
     <div class="text-center">
-        <button class="btn btn-primary"><i class="fa fa-star"></i></button>
+        <button class="btn" [ngClass]="book().isFavourite ? 'btn-warning' : 'btn-primary'" (click)="makeFavourite()">Favourite <i class="fa fa-star"></i></button>
+        <button class="btn btn-danger mx-2" (click)="deleteBook()">Delete <i class="fa fa-trash"></i></button>
     </div>
   </div>
 </div>

@@ -1,11 +1,27 @@
 using BookCatalog_API.Extensions;
+using BookCatalog_API.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var tokenKey = builder.Configuration["TokenKey"] ?? throw new Exception("TokenKey not found");
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey)),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+        };
+    });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,6 +38,8 @@ app.UseReDoc(options =>
 
 app.MapScalarApiReference();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseCors(builder =>
 {
     builder.AllowAnyOrigin();
@@ -31,6 +49,7 @@ app.UseCors(builder =>
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

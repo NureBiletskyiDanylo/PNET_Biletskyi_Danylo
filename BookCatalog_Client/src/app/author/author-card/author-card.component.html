@@ -3,7 +3,8 @@
     <h5 class="card-title">{{author().name}}</h5>
     <p class="card-text">{{author().authorInfo == null? 'No additional info' : author().authorInfo}}</p>
     <div class="text-center">
-        <button class="btn btn-primary">View more:</button>
+        <button class="btn btn-primary">Author biography</button>
+        <button class="btn btn-primary" [routerLink]="['/author', author().id, 'books']">Books</button>
     </div>
   </div>
 </div>

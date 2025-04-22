@@ -1,10 +1,11 @@
 import { Component, input } from '@angular/core';
 import { Author } from '../../_models/author';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-author-card',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './author-card.component.html',
   styleUrl: './author-card.component.css'
 })

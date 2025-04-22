@@ -73,6 +73,36 @@ namespace BookCatalog_API.Migrations
                     b.ToTable("Books");
                 });
 
+            modelBuilder.Entity("BookCatalog_API.Entities.BookCreateLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("InsertedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BookCreateLogs");
+                });
+
             modelBuilder.Entity("BookCatalog_API.Entities.BookGenre", b =>
                 {
                     b.Property<int>("BookId")
@@ -158,6 +188,25 @@ namespace BookCatalog_API.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("BookCatalog_API.Entities.BookCreateLog", b =>
+                {
+                    b.HasOne("BookCatalog_API.Entities.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("BookCatalog_API.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("BookCatalog_API.Entities.BookGenre", b =>

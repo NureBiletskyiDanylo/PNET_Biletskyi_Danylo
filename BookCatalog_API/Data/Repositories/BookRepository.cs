@@ -10,7 +10,7 @@ public class BookRepository(DataContext context, IMapper mapper) : IBookReposito
 {
     public async Task<bool> AddBookAsync(int authorId, BookCreateDto bookDto)
     {
-        Author? author = await context.Authors.FindAsync(mapper);
+        Author? author = await context.Authors.FindAsync(authorId);
         if (author == null)
         {
             throw new ArgumentNullException("Author was not found");
@@ -28,9 +28,9 @@ public class BookRepository(DataContext context, IMapper mapper) : IBookReposito
         return await context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> DeleteBookAsync(BookDto bookDto)
+    public async Task<bool> DeleteBookAsync(int bookId)
     {
-        Book? book = await context.Books.FindAsync(bookDto.Id);
+        Book? book = await context.Books.FindAsync(bookId);
         if (book == null)
         {
             throw new ArgumentNullException("Book was not found");
@@ -59,10 +59,24 @@ public class BookRepository(DataContext context, IMapper mapper) : IBookReposito
         return await context.SaveChangesAsync() > 0;
     }
 
-    public async Task<List<BookDto>> GetAllBooksAsync()
+    public async Task<List<BookDto>> GetAllBooksAsync(int userId = -1)
     {
-        List<Book> books = await context.Books.ToListAsync();
-        return mapper.Map<List<BookDto>>(books);
+        var mappedList = mapper.Map<List<BookDto>>(await context.Books.ToListAsync());
+        if (userId == -1)
+        {
+            return mappedList;
+        }
+
+        var favoriteBookIds = await context.Set<Favourite>()
+            .Where(f => f.UserId == userId)
+            .Select(f => f.BookId)
+            .ToListAsync();
+
+        foreach (var book in mappedList)
+        {
+            book.IsFavourite = favoriteBookIds.Contains(book.Id);
+        }
+        return mappedList;
     }
 
     public async Task<List<BookDto>> GetAllBooksOfAuthorAsync(int authorId)
@@ -82,4 +96,42 @@ public class BookRepository(DataContext context, IMapper mapper) : IBookReposito
         }
         return mapper.Map<BookDto>(book);
     }
+
+    public async Task<bool> MakeFavourite( Tuple<int, int> ids) // item1 - user id; item2 - book id
+        //returns false -> unfavourite; true -> favourite
+    {
+        User? user = await context.Users.Include(f => f.Favourites).FirstOrDefaultAsync(u => u.Id == ids.Item1);
+        if (user == null) throw new ArgumentNullException(nameof(MakeFavourite), "User was not found");
+
+        Favourite? fav = user.Favourites.FirstOrDefault(f => f.BookId == ids.Item2); 
+        if (fav != null)
+        {
+            user.Favourites.Remove(fav);
+            await context.SaveChangesAsync();
+            return false;
+        }
+
+        Book? book = await context.Books.FindAsync(ids.Item2);
+        if (book == null) throw new ArgumentNullException(nameof(MakeFavourite), "Book was not found");
+
+        Favourite favourite = new Favourite
+        {
+            Book = book,
+            BookId = ids.Item2,
+            UserId = ids.Item1,
+            FavoriteBy = user
+        };
+
+        await context.AddAsync(favourite);
+        return await context.SaveChangesAsync() > 0;
+    }
+
+    public async Task<List<Favourite>> GetFavouritesAsync(int userId)
+    {
+        User? user = await context.Users.Include(a => a.Favourites).FirstOrDefaultAsync(a => a.Id == userId);
+        if (user == null) throw new ArgumentNullException(nameof(MakeFavourite), "User was not found");
+
+        return user.Favourites ?? new List<Favourite>();
+    }
+
 }
