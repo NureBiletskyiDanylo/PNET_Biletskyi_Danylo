@@ -30,7 +30,8 @@ public class AccountController(IUserRepository userRepository, ITokenService tok
         return new UserDto
         {
             Username = user.Username,
-            Token = tokenService.CreateToken(user)
+            Token = tokenService.CreateToken(user),
+            Role = user.Role.ToString()
         };
     }
 
@@ -62,7 +63,8 @@ public class AccountController(IUserRepository userRepository, ITokenService tok
         return new UserDto
         {
             Username = user.Username,
-            Token = tokenService.CreateToken(user)
+            Token = tokenService.CreateToken(user),
+            Role = "User"
         };
     }
 

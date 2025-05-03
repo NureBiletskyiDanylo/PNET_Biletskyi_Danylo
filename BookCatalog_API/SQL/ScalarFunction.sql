@@ -6,4 +6,4 @@ BEGIN
     SELECT @Count = COUNT(*) FROM Books WHERE AuthorId = @AuthorId;
     RETURN @Count;
 END;*/
-SELECT dbo.GetAuthorBookCount(1)
+SELECT dbo.GetAuthorBookCount(4)

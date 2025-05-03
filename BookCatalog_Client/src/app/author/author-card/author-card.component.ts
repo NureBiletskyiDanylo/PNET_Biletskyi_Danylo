@@ -1,6 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Author } from '../../_models/author';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AccountService } from '../../_services/account.service';
 
 @Component({
   selector: 'app-author-card',
@@ -10,5 +11,11 @@ import { RouterLink } from '@angular/router';
   styleUrl: './author-card.component.css'
 })
 export class AuthorCardComponent {
+  private router = inject(Router);
+  accountService = inject(AccountService);
   author = input.required<Author>();
+
+  viewAuthor(id: number){
+    this.router.navigate(['/authors', id, 'view']);
+  }
 }

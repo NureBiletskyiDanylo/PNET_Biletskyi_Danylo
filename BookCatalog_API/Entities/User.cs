@@ -1,4 +1,6 @@
-﻿namespace BookCatalog_API.Entities;
+﻿using BookCatalog_API.Enums;
+
+namespace BookCatalog_API.Entities;
 
 public class User
 {
@@ -8,4 +10,5 @@ public class User
     public byte[] PasswordHash { get; set; } = [];
     public byte[] PasswordSalt { get; set; } = [];
     public List<Favourite> Favourites { get; set; } = [];
+    public Roles Role { get; set; } = Roles.User;
 }

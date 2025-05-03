@@ -1,10 +1,11 @@
-﻿using BookCatalog_API.DTOs;
+﻿using AutoMapper;
+using BookCatalog_API.DTOs;
 using BookCatalog_API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookCatalog_API.Controllers;
 
-public class AuthorController(IAuthorRepository authorRepository, IBookRepository bookRepository) : BaseApiController
+public class AuthorController(IAuthorRepository authorRepository, IBookRepository bookRepository, IMapper mapper) : BaseApiController
 {
     #region Author
     [HttpPost("author/create")]
@@ -23,6 +24,7 @@ public class AuthorController(IAuthorRepository authorRepository, IBookRepositor
     {
         var author = await authorRepository.GetAuthorByIdAsync(id);
         if (author == null) return BadRequest("Author was not found");
+        
         return Ok(author);
     }
 

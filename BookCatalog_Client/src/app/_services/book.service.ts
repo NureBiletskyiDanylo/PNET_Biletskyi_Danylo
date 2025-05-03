@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Book } from '../_models/book';
 import { environment } from '../../environments/environment';
 import { CreateBook } from '../_models/createBook';
+import { BookEdit } from '../_models/bookEdit';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,20 @@ export class BookService {
 
   getBooksByAuthorId(id:number){
     return this.http.get<Book[]>(`${this.baseUrl}/book/books/${id}`)
+  }
+
+  // FOR EDIT ONLY
+  getBookById(id:number){
+    return this.http.get<BookEdit>(`${this.baseUrl}/book/books/book/${id}`);
+  }
+
+  getBookByIdView(id:number){
+    return this.http.get<Book>(`${this.baseUrl}/book/books/book/view/${id}`);
+  }
+
+
+  editBook(book:BookEdit){
+    return this.http.put(`${this.baseUrl}/book/books/${book.id}`, book);
   }
 
   addBook(id:number, book: CreateBook){

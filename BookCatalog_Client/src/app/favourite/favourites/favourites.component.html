@@ -1,0 +1,3 @@
+@for (book of favourites.books; track book.id){
+    <app-book-card [book]="book" (bookUnfavourited)="removeBookFromFavourites($event)"></app-book-card>
+}

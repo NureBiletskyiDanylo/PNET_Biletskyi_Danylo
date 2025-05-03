@@ -1,6 +1,9 @@
-<div class="btn-group mb-3">
-    <button routerLink="create" class="btn btn-primary">Create Author</button>
-</div>
+@if (accountService.currentUser() && accountService.currentUser()?.role?.toLowerCase()
+=== "admin"){
+    <div class="btn-group mb-3">
+        <button routerLink="create" class="btn btn-primary">Create Author</button>
+    </div>
+}
 
 @for (author of authors; track author.id){
     <app-author-card [author]="author"></app-author-card>

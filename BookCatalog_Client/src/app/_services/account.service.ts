@@ -2,13 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { User } from '../_models/user';
-import { map } from 'rxjs';
+import { map, of } from 'rxjs';
+import { Favourite } from '../_models/favourite';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
   private http = inject (HttpClient);
+  private router = inject(Router);
   baseUrl = environment.apiUrl;
   currentUser = signal<User | null>(null);
 
@@ -37,5 +40,9 @@ export class AccountService {
   logout(){
     localStorage.removeItem('user');
     this.currentUser.set(null);
+  }
+
+  getFavourites(){
+      return this.http.get<Favourite>(this.baseUrl + '/book/favourites');
   }
 }

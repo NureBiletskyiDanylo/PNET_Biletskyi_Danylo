@@ -31,5 +31,13 @@ export class GenreService {
       return throwError(() => new Error(error.error || 'An error occured'));
     }
   }
+
+  editGenre(genre:Genre){
+    return this.http.put(`${this.baseUrl}/genre/genre/edit`, genre);
+  }
+
+  deleteGenre(id:number){
+    return this.http.delete(`${this.baseUrl}/genre/genre/${id}`);
+  }
   constructor() { }
 }

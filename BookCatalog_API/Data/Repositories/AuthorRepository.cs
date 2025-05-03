@@ -31,7 +31,7 @@ public class AuthorRepository(DataContext context, IMapper mapper) : IAuthorRepo
 
     public async Task<AuthorDto?> GetAuthorByIdAsync(int id)
     {
-        return mapper.Map<AuthorDto>(await context.Authors.FindAsync(id));
+        return mapper.Map<AuthorDto>(await context.Authors.Include(b => b.Books).FirstOrDefaultAsync(a => a.Id == id));
     }
 
     public async Task<List<AuthorDto>> GetAuthorsByNameAsync(string name)

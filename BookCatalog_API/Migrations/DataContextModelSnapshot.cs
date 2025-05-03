@@ -70,7 +70,12 @@ namespace BookCatalog_API.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", null, t =>
+                        {
+                            t.HasTrigger("trg_LogBookInsert");
+                        });
+
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("BookCatalog_API.Entities.BookCreateLog", b =>
@@ -169,6 +174,9 @@ namespace BookCatalog_API.Migrations
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.Property<string>("Username")
                         .IsRequired()

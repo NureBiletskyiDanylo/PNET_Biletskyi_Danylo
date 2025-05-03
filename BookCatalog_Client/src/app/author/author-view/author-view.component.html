@@ -1,0 +1,45 @@
+<div class="container mt-4">
+  <div class="card shadow-sm border-0">
+    <div *ngIf="author">
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">{{ author.name }}</h3>
+        <span class="badge bg-dark">Author ID: {{ author.id }}</span>
+        </div>
+        <div class="card-body">
+        <p *ngIf="author.authorInfo; else noInfo" class="mb-3">
+            {{ author.authorInfo }}
+        </p>
+        <ng-template #noInfo>
+            <p class="text-muted fst-italic">No biography provided for this author.</p>
+        </ng-template>
+
+        <h5 class="mt-4">Books by {{ author.name }}:</h5>
+        <ul class="list-group mt-2" *ngIf="author.books.length > 0; else noBooks">
+            <li class="list-group-item d-flex justify-content-between align-items-center"
+                *ngFor="let book of author.books">
+            <span>
+                <strong>{{ book.title }}</strong>
+                <br>
+                <small class="text-muted">
+                {{ book.publicationDate }}
+                </small>
+            </span>
+            <button class="btn btn-outline-primary btn-sm" (click)="viewBook(book.id)">
+                View Book
+            </button>
+            </li>
+        </ul>
+
+        <ng-template #noBooks>
+            <p class="text-muted fst-italic">This author has no books listed.</p>
+        </ng-template>
+        </div>
+        <div class="card-footer text-end">
+        <button class="btn btn-secondary" (click)="goBack()">Back</button>
+        </div>
+    </div>
+    <div *ngIf="!author">
+        <p>Loading author....</p>
+    </div>
+  </div>
+</div>

@@ -4,7 +4,14 @@
     <p class="card-text">{{book().description == null? 'no description' : book().description}}</p>
     <div class="text-center">
         <button class="btn" [ngClass]="book().isFavourite ? 'btn-warning' : 'btn-primary'" (click)="makeFavourite()">Favourite <i class="fa fa-star"></i></button>
-        <button class="btn btn-danger mx-2" (click)="deleteBook()">Delete <i class="fa fa-trash"></i></button>
+        <button class="btn btn-info mx-2" (click)="viewBook(book().id)">
+          View <i class="fa fa-eye"></i>
+        </button>
+        @if (accountService.currentUser() && 
+        accountService.currentUser()?.role?.toLowerCase() === "admin"){
+          <button class="btn btn-danger mx-2" (click)="deleteBook()">Delete <i class="fa fa-trash"></i></button>
+          <button class="btn btn-warning mx-2" (click)="editBook(book().id)">Edit<i class="fa fa-pencil"></i></button>
+        }
     </div>
   </div>
 </div>

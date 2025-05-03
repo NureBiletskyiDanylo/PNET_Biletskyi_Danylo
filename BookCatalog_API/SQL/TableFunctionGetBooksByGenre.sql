@@ -12,4 +12,4 @@ RETURN
     JOIN Authors a ON b.AuthorId = a.Id
     WHERE bg.GenreId = @GenreId
 );*/
-SELECT * FROM dbo.GetBooksByGenre(1);
+SELECT * FROM dbo.GetBooksByGenre(3);

@@ -7,10 +7,11 @@ public interface IBookRepository
 {
     Task<bool> AddBookAsync(int authorId, BookCreateDto bookDto);
     Task<bool> DeleteBookAsync(int bookId);
-    Task<BookDto> GetBookByIdAsync(int bookId);
-    Task<List<BookDto>> GetAllBooksOfAuthorAsync(int authorId);
+    Task<BookDto> GetBookByIdAsync(int bookId, int userId = 0);
+    Task<List<BookDto>> GetAllBooksOfAuthorAsync(int authorId, int userId = -1);
     Task<List<BookDto>> GetAllBooksAsync(int userId = -1);
-    Task<bool> EditBook(BookDto bookDto);
+    Task<bool> EditBook(BookEditDto bookDto);
     Task<bool> MakeFavourite(Tuple<int, int> ids);
-    Task<List<Favourite>> GetFavouritesAsync(int userId);
+    Task<FavouriteDto> GetFavouritesAsync(int userId);
+    Task<BookEditDto> GetBookEditDtoByIdAsync(int bookId);
 }

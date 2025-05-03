@@ -1,3 +1,4 @@
+using BookCatalog_API.Converters;
 using BookCatalog_API.Extensions;
 using BookCatalog_API.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+});
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

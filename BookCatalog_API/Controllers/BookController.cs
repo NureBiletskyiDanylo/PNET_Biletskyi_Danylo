@@ -1,4 +1,5 @@
-﻿using BookCatalog_API.DTOs;
+﻿using AutoMapper;
+using BookCatalog_API.DTOs;
 using BookCatalog_API.Extensions;
 using BookCatalog_API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -40,7 +41,17 @@ public class BookController(IBookRepository repository) : BaseApiController
     [HttpGet("books/{id:int}")]
     public async Task<ActionResult> GetAuthorBooks(int id)
     {
-        return Ok(await repository.GetAllBooksOfAuthorAsync(id));
+        int userId = -1;
+        try
+        {
+            userId = User.GetUserId();
+
+        }
+        catch (Exception)
+        {
+            return Ok(await repository.GetAllBooksOfAuthorAsync(id));
+        }
+        return Ok(await repository.GetAllBooksOfAuthorAsync(id, userId));
     }
 
     [HttpDelete("books/{id:int}")]
@@ -76,6 +87,43 @@ public class BookController(IBookRepository repository) : BaseApiController
     public async Task<ActionResult> GetFavourites()
     {
         int userId = User.GetUserId();
-        return Ok(await repository.GetFavouritesAsync(userId));
+        var favourites = await repository.GetFavouritesAsync(userId);
+        // DO with DTO
+        return Ok(favourites);
+    }
+
+    [HttpPut("books/{id:int}")]
+    public async Task<ActionResult> EditBook([FromRoute]int id, [FromBody]BookEditDto book)
+    {
+        bool success = await repository.EditBook(book);
+        if (!success)
+        {
+            return BadRequest("Book was not edited because of internal error");
+        }
+        return Ok();
+    }
+
+    [HttpGet("books/book/{id:int}")]
+    public async Task<ActionResult> GetBookForEditById(int id)
+    {
+        var book = await repository.GetBookEditDtoByIdAsync(id);
+
+        return Ok(book);
+    }
+
+    [HttpGet("books/book/view/{id:int}")]
+    public async Task<ActionResult> GetBookForViewById(int id)
+    {
+        int userId = -1;
+        try
+        {
+            userId = User.GetUserId();
+
+        }
+        catch (Exception)
+        {
+            return Ok(await repository.GetBookByIdAsync(id));
+        }
+        return Ok(await repository.GetBookByIdAsync(id, userId));
     }
 }

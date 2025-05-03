@@ -1,0 +1,13 @@
+<form [formGroup]="authorEditForm" (submit)="editForm()">
+    <div class="form-group smaller-width">
+        <label for="name">Name</label>
+        <input formControlName="name" class="form-control" id="name" type="text">
+    </div>
+    <div class="form-group smaller-width mt-3">
+        <label for="authorInfo">Additional author biography</label>
+        <input formControlName="authorInfo" class="form-control" id="authorInfo" type="text">
+    </div>
+
+    <button class="btn btn-primary" type="submit">Confirm</button>
+    <button class="btn btn-danger" type="button">Back</button>
+</form>

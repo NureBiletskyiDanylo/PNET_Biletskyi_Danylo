@@ -11,3 +11,5 @@ BEGIN
     ORDER BY FavouriteCount DESC;
 END;*/
 EXEC GetTopFavouriteBooks
+
+-- зробити другорядну умову

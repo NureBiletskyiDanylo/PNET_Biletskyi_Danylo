@@ -1,0 +1,47 @@
+<div class="container mt-4">
+  <div class="card shadow-sm border-0">
+    <div *ngIf="book">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">{{ book.title }}</h4>
+        <span *ngIf="book.isFavourite" class="badge bg-warning text-dark">
+            <i class="fa fa-star"></i> Favourite
+        </span>
+        </div>
+        <div class="card-body">
+        <p class="text-muted mb-2">
+            <strong>Publication Date:</strong>
+            {{ book.publicationDate }}
+        </p>
+        <p *ngIf="book.description; else noDesc">
+            <strong>Description:</strong><br>
+            {{ book.description }}
+        </p>
+        <ng-template #noDesc>
+            <p class="text-muted fst-italic">No description provided.</p>
+        </ng-template>
+
+        <div class="mt-3">
+            <strong>Genres:</strong>
+            <span *ngIf="book.bookGenres.length > 0; else noGenres">
+            <span *ngFor="let genre of book.bookGenres" class="badge bg-info text-dark me-1">
+                {{ genre.name }}
+            </span>
+            </span>
+            <ng-template #noGenres>
+            <span class="text-muted fst-italic">No genres assigned.</span>
+            </ng-template>
+        </div>
+        </div>
+        <div class="card-footer text-end">
+        <button class="btn btn-secondary me-2" (click)="goBack()">Back</button>
+        @if (accountService.currentUser() &&
+        accountService.currentUser()?.role?.toLowerCase() === "admin"){
+            <button class="btn btn-warning" (click)="editBook(book.id)">Edit Book</button>
+        }
+        </div>
+    </div>
+    <div *ngIf="!book">
+        <p>Loading book details...</p>
+    </div>
+  </div>
+</div>

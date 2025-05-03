@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, inject, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Input, OnInit, Output, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { Genre } from '../../_models/genre';
 import { GenreService } from '../../_services/genre.service';
 import { NgClass } from '@angular/common';
@@ -10,11 +10,11 @@ import { NgClass } from '@angular/common';
   templateUrl: './genre-list.component.html',
   styleUrl: './genre-list.component.css'
 })
-export class GenreListComponent implements OnInit{
+export class GenreListComponent implements OnInit, OnChanges{
   @ViewChild('selectedGenresString') selectedGenresInput!: ElementRef<HTMLInputElement>;
   focused:boolean = false;
   genres:Genre[] = [];
-  selectedGenres: Genre[] = [];
+  @Input() selectedGenres: Genre[] = [];
   @Output() selectedGenresChange = new EventEmitter<Genre[]>();
   private genreService = inject(GenreService);
   switchList(){
@@ -24,7 +24,11 @@ export class GenreListComponent implements OnInit{
   ngOnInit(): void {
     this.loadGenres();
   }
-
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedGenres'] && this.selectedGenresInput){
+      this.buildSelectedString();
+    }
+  }
   loadGenres(){
     this.genreService.getGenres().subscribe({
       next: genres => this.genres = genres
@@ -56,6 +60,41 @@ export class GenreListComponent implements OnInit{
         },
       });
     } 
+  }
+
+  editGenre(genre:Genre){
+    var edittedGenre = prompt("The genre name will be", genre.name);
+
+    if (edittedGenre){
+      genre.name = edittedGenre;
+      this.genreService.editGenre(genre).subscribe({
+        next: (response) => {
+          this.genres = this.genres.map(g => g.id === genre.id ? genre : g);
+          this.selectedGenres = this.selectedGenres.map(g => g.id === genre.id ? genre : g);
+          this.buildSelectedString();
+          this.selectedGenresChange.emit(this.selectedGenres);
+        },
+        error: (err) => {
+          console.error("Error", err);
+        }
+
+      })
+    }
+  }
+
+  deleteGenre(id: number){
+    this.genreService.deleteGenre(id).subscribe({
+      next: (response) => {
+        console.log("Deleted");
+        this.genres = this.genres.filter(g => g.id !== id);
+        this.selectedGenres = this.selectedGenres.filter(g => g.id !== id);
+        this.buildSelectedString();
+        this.selectedGenresChange.emit(this.selectedGenres);
+      },
+      error: (err) => {
+        console.error("Error", err);
+      }
+    })
   }
 
   isSelected(genre: Genre) : boolean{

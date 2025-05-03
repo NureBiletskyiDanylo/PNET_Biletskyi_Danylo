@@ -5,6 +5,8 @@
     <div (click)="selectGenre(genre)" class="p-2 border genre"
     [ngClass]="{'bg-warning': isSelected(genre), 'bg-info': !isSelected(genre)}">
         <p>{{genre.name}}</p>
+        <button (click)="editGenre(genre); $event.stopPropagation()"><i class="fa fa-pencil"></i></button>
+        <button (click)="deleteGenre(genre.id); $event.stopPropagation()"><i class="fa fa-trash"></i></button>
     </div>
     }
 
