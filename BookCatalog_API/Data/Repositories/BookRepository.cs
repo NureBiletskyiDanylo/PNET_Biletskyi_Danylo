@@ -193,4 +193,13 @@ public class BookRepository(DataContext context, IMapper mapper) : IBookReposito
         return favouriteDto;
     }
 
+    public async Task<List<BookLogsDto>> GetBookLogs()
+    {
+        var logs = await context.Set<BookCreateLog>().Include(b => b.Author).ToListAsync();
+        if (logs != null)
+        {
+            return mapper.Map<List<BookLogsDto>>(logs);
+        }
+        return new List<BookLogsDto>();
+    }
 }

@@ -4,6 +4,7 @@ import { Book } from '../_models/book';
 import { environment } from '../../environments/environment';
 import { CreateBook } from '../_models/createBook';
 import { BookEdit } from '../_models/bookEdit';
+import { BookLog } from '../_models/bookLog';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,10 @@ export class BookService {
 
   makeFavourite(id:number){
     return this.http.post<boolean>(`${this.baseUrl}/book/books/favourite/${id}`, {});
+  }
+
+  getBookLogs(){
+    return this.http.get<BookLog[]>(`${this.baseUrl}/book/books/logs`);
   }
   constructor() { }
 }

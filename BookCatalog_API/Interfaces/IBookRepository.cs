@@ -14,4 +14,5 @@ public interface IBookRepository
     Task<bool> MakeFavourite(Tuple<int, int> ids);
     Task<FavouriteDto> GetFavouritesAsync(int userId);
     Task<BookEditDto> GetBookEditDtoByIdAsync(int bookId);
+    Task<List<BookLogsDto>> GetBookLogs();
 }

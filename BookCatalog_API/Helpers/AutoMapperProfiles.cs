@@ -31,5 +31,6 @@ public class AutoMapperProfiles : Profile
             .ForMember(b => b.BooksWithGenre, opt => opt.Ignore());
         CreateMap<Genre, GenreDto>();
         CreateMap<User, MemberDto>();
+        CreateMap<BookCreateLog, BookLogsDto>();
     }
 }

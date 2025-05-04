@@ -126,4 +126,11 @@ public class BookController(IBookRepository repository) : BaseApiController
         }
         return Ok(await repository.GetBookByIdAsync(id, userId));
     }
+
+    [HttpGet("books/logs")]
+    public async Task<ActionResult> GetBookLogs()
+    {
+        List<BookLogsDto> logs = await repository.GetBookLogs();
+        return Ok(logs);
+    }
 }

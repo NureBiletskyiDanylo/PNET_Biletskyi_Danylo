@@ -15,6 +15,7 @@ import { AuthorViewComponent } from './author/author-view/author-view.component'
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { authGuard } from './_guard/auth.guard';
 import { adminGuard } from './_guard/admin.guard';
+import { BookLogComponent } from './book/book-log/book-log.component';
 
 export const routes: Routes = [
     {path: 'books', component: BooksComponent},
@@ -30,5 +31,6 @@ export const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
     {path: 'admin', component:AdminPanelComponent, canActivate: [adminGuard]},
+    {path: 'admin/book-logs', component: BookLogComponent, canActivate: [adminGuard]},
     {path: '**', component: HomeComponent, pathMatch: 'full'}
 ];

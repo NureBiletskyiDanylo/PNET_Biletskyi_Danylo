@@ -1,0 +1,26 @@
+<div class="container mt-4">
+  <h3>Book Creation Logs</h3>
+
+  <table class="table table-bordered table-striped mt-3" *ngIf="bookLogs.length > 0; else noLogs">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Book Title</th>
+        <th>Author</th>
+        <th>Inserted At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of bookLogs; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ log.title }}</td>
+        <td>{{ log.author.name }}</td>
+        <td>{{ log.insertedAt }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noLogs>
+    <p class="text-muted fst-italic">No book logs available.</p>
+  </ng-template>
+</div>

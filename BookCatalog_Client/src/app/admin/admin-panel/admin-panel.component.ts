@@ -3,6 +3,7 @@ import { UserService } from '../../_services/user.service';
 import { Member } from '../../_models/member';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-panel',
@@ -12,6 +13,10 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './admin-panel.component.css'
 })
 export class AdminPanelComponent implements OnInit{
+  goToBookLogs() {
+    this.router.navigate(['/admin/book-logs'])
+  }
+  private router = inject(Router);
   private userService = inject(UserService);
 
   members!: Member[];
