@@ -6,5 +6,5 @@
 }
 
 @for (author of authors; track author.id){
-    <app-author-card [author]="author"></app-author-card>
+    <app-author-card [author]="author" (authorDeleted)="handleAuthorDeleted($event)"></app-author-card>
 }

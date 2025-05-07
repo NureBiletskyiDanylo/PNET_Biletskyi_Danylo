@@ -32,5 +32,9 @@ export class AuthorService {
     return this.http.put(`${this.baseUrl}/author/author/${author.id}`, author);
   }
 
+  deleteAuthor(id:number){
+    return this.http.delete(`${this.baseUrl}/author/author/${id}`);
+  }
+
   constructor() { }
 }

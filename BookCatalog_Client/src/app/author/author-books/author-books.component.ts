@@ -3,6 +3,7 @@ import { BookService } from '../../_services/book.service';
 import { Book } from '../../_models/book';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookCardComponent } from '../../book/book-card/book-card.component';
+import { AccountService } from '../../_services/account.service';
 
 @Component({
   selector: 'app-author-books',
@@ -13,6 +14,7 @@ import { BookCardComponent } from '../../book/book-card/book-card.component';
 })
 export class AuthorBooksComponent implements OnInit{
   private bookService = inject(BookService);
+  accountSErvice = inject(AccountService);
   private route = inject(ActivatedRoute);
   private router = inject(Router)
   id: number = 0;

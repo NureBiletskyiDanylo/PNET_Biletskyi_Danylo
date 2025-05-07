@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [BookCardComponent, RouterLink],
+  imports: [BookCardComponent],
   templateUrl: './books.component.html',
   styleUrl: './books.component.css'
 })

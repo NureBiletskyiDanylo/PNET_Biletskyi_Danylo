@@ -16,7 +16,9 @@ export class BookLogComponent implements OnInit{
 
   ngOnInit(): void {
     this.bookService.getBookLogs().subscribe({
-      next: (response) => this.bookLogs = response,
+      next: (response) => {
+        this.bookLogs = response;
+      },
       error: (err) => console.error("Failed to load book logs", err)
     })
   }

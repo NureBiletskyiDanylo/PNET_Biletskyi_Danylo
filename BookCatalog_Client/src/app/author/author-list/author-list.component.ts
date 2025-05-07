@@ -31,4 +31,8 @@ export class AuthorListComponent implements OnInit{
       }
     })
   }
+
+  handleAuthorDeleted(authorId:number){
+    this.authors = this.authors.filter(author => author.id != authorId);
+  }
 }

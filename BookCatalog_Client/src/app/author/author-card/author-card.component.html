@@ -8,6 +8,7 @@
         @if (accountService.currentUser() &&
         accountService.currentUser()?.role?.toLowerCase() === "admin"){
           <button class="btn btn-primary" [routerLink]="['/authors', author().id, 'edit']">Edit</button>
+          <button class="btn btn-danger" (click)="deleteAuthor()">Delete</button>
         }
     </div>
   </div>

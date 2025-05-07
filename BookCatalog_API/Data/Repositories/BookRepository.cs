@@ -35,6 +35,8 @@ public class BookRepository(DataContext context, IMapper mapper) : IBookReposito
         {
             throw new ArgumentNullException("Book was not found");
         }
+        var logs = await context.BookCreateLogs.Where(l => l.BookId == bookId).ToListAsync();
+        context.BookCreateLogs.RemoveRange(logs);
         context.Books.Remove(book);
         return await context.SaveChangesAsync() > 0;
     }

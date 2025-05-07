@@ -19,6 +19,8 @@ public class AuthorRepository(DataContext context, IMapper mapper) : IAuthorRepo
         var author = await context.Authors.FindAsync(id);
         if (author == null)
             throw new ArgumentNullException("Author was not found");
+        var logs = await context.BookCreateLogs.Where(b => b.AuthorId == id).ToListAsync();
+        context.BookCreateLogs.RemoveRange(logs);
         context.Authors.Remove(author);
         return await context.SaveChangesAsync() > 0;
     }

@@ -18,6 +18,7 @@ public class DataContext : DbContext
     {
         base.OnModelCreating(builder);
 
+        builder.Entity<Log>().ToTable("Logs", t => t.ExcludeFromMigrations());
         builder.Entity<Author>()
             .HasMany(s => s.Books)
             .WithOne(s => s.Author)
@@ -56,7 +57,7 @@ public class DataContext : DbContext
 
         builder.Entity<BookCreateLog>()
             .HasOne(b => b.Book)
-            .WithMany() // no reverse navigation
+            .WithMany() // no reverse nav
             .HasForeignKey(b => b.BookId)
             .OnDelete(DeleteBehavior.NoAction);
 
@@ -69,5 +70,6 @@ public class DataContext : DbContext
 
         builder.Entity<Book>()
         .ToTable("Books", t => t.HasTrigger("trg_LogBookInsert"));
+
     }
 }
