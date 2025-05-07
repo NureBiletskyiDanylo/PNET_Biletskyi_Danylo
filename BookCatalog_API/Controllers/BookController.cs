@@ -131,6 +131,6 @@ public class BookController(IBookRepository repository) : BaseApiController
     public async Task<ActionResult> GetBookLogs()
     {
         List<BookLogsDto> logs = await repository.GetBookLogs();
-        return Ok(logs);
+        return Ok(null);
     }
 }

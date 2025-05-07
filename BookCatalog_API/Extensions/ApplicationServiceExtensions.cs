@@ -24,6 +24,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<IAuthorRepository, AuthorRepository>();
         services.AddScoped<IBookRepository, BookRepository>();
         services.AddScoped<IGenreRepository, GenreRepository>();
+        services.AddScoped<ILogRepository, LogRepository>();
 
         services.AddOpenApi();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

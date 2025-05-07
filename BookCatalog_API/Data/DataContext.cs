@@ -12,6 +12,7 @@ public class DataContext : DbContext
     public DbSet<Book> Books { get; set; }
     public DbSet<Genre> Genres { get; set; }
     public DbSet<BookCreateLog> BookCreateLogs { get; set; }
+    public DbSet<Log> Logs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

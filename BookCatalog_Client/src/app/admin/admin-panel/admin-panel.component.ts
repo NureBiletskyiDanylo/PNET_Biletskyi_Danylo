@@ -16,6 +16,10 @@ export class AdminPanelComponent implements OnInit{
   goToBookLogs() {
     this.router.navigate(['/admin/book-logs'])
   }
+  
+  goToServerLogs(){
+    this.router.navigate(['/admin/server-logs']);
+  }
   private router = inject(Router);
   private userService = inject(UserService);
 

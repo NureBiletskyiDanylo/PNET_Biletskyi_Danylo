@@ -1,0 +1,30 @@
+<div class="container my-4">
+  <h2>Server Logs</h2>
+
+  <div *ngIf="logs.length === 0" class="alert alert-warning">
+    No logs available.
+  </div>
+
+  <div *ngIf="logs.length > 0" class="table-responsive">
+    <table class="table table-bordered table-hover table-sm">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Level</th>
+          <th>Message</th>
+          <th>Exception</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs">
+          <td>{{ log.id }}</td>
+          <td><span class="badge bg-secondary">{{ log.level }}</span></td>
+          <td>{{ log.message }}</td>
+          <td>{{ log.exception || '-' }}</td>
+          <td>{{ log.timeStamp }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
